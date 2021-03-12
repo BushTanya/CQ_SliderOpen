@@ -1,5 +1,6 @@
 //The parameter isCustomScaleOn should be set the same here and in the ".runtime/loader.js"
-// For Open Form it 
+// For Open Form it should be always true
+// For SingleForm, GridForm it should be false
 const isCustomScaleOn = true;
 let scaleSettingsDiv = document.getElementById('scaleSettings');
 if (isCustomScaleOn) {

@@ -6,7 +6,8 @@
 		scaleStart: 0
 	};
 	//The parameter isCustomScaleOn should be set the same here and in the ".design/index.js"
-	// For Open Form it should be always true
+	// For OpenForm it should be always true
+	// For SingleForm, GridForm it should be false
 	const isCustomScaleOn = true;
 	const ifSetQuestionVal = false;
 
