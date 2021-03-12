@@ -1232,13 +1232,12 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
    * @param {OpenQuestion} question
    * @param {QuestionViewSettings} settings
    */
-  constructor(question, settings, sliderSettings, isCustomScaleOn, ifSetQuestionVal) {
+  constructor(question, settings, sliderSettings, isCustomScaleOn = true, ifSetQuestionVal) {
     super(question, settings);
     this.sliderSettings = sliderSettings;
     this.ifSetQuestionVal = ifSetQuestionVal;
-    this.isCustomScaleOn = isCustomScaleOn;
     this.container = this.getContainer();
-    this.sliderValues = this.isCustomScaleOn ? this.getValues(this.sliderSettings.scaleMin, this.sliderSettings.scaleMax) : this.question.answers;
+    this.sliderValues = this.getValues(this.sliderSettings.scaleMin, this.sliderSettings.scaleMax);
     this.render();
     this.slider = this.createSlider();
     this.slider.changeEvent.on(this.onSliderChange.bind(this));
@@ -1255,11 +1254,11 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
       });
     });
 
-    if (this.ifSetQuestionVal && this.isCustomScaleOn) {
+    if (this.ifSetQuestionVal) {
       this.question.setValue(this.sliderSettings.scaleStart);
     }
 
-    if (!this.ifSetQuestionVal && this.isCustomScaleOn) {
+    if (!this.ifSetQuestionVal) {
       this.sliderValue = this.sliderSettings.scaleStart.toString();
       this.onModelValueChange();
     }
