@@ -1,0 +1,20 @@
+{
+  "id": "83f8d1ad-7949-4c53-9cda-aa424ece246b",
+  "name": "CQ_SliderOpen",
+  "description": "",
+  "schemaVersion": 2,
+  "baseQuestionType": "OpenForm",
+  "disableDefaultRendering": true,
+  "iconUrl": "design/icon.svg",
+  "designEntryPoint": "design/index.html",
+  "runtimeEntryPoint": {
+    "component": "runtime/loader.js",
+    "deps": {
+      "scripts": [
+		"runtime/slider-open_bundle.js"],
+      "styles": [
+        "runtime/styles.css"
+      ]
+    }
+  }
+}
