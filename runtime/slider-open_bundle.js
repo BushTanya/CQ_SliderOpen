@@ -1245,23 +1245,24 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     this.answerErrorBlockManager = new ErrorBlockManager();
     this.sliderValues.forEach(answer => {
       this.getAnswerTextNode(answer.code).addEventListener('click', () => {
-        if (ifSetQuestionVal) {
-          this.question.setValue(answer.code);
-        } else {
-          this.sliderValue = answer.code;
-          this.onModelValueChange();
+        this.setSliderValue(answer.code);
+        /*if (ifSetQuestionVal) {
+        	this.question.setValue(answer.code);
         }
+        else {
+        	this.sliderValue = answer.code;
+        	this.onModelValueChange();
+        }*/
       });
     });
-
-    if (this.ifSetQuestionVal) {
-      this.question.setValue(this.sliderSettings.scaleStart);
+    this.setSliderValue(this.sliderSettings.scaleStart.toString());
+    /*if (this.ifSetQuestionVal) {
+    	this.question.setValue(this.sliderSettings.scaleStart);
     }
-
-    if (!this.ifSetQuestionVal) {
-      this.sliderValue = this.sliderSettings.scaleStart.toString();
-      this.onModelValueChange();
-    }
+    else {
+    	this.sliderValue = this.sliderSettings.scaleStart.toString();
+    	this.onModelValueChange();
+    }*/
   }
 
   render() {
@@ -1372,6 +1373,15 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     }
 
     return valArr;
+  }
+
+  setSliderValue(value) {
+    if (this.ifSetQuestionVal) {
+      this.question.setValue(value);
+    } else {
+      this.sliderValue = value;
+      this.onModelValueChange();
+    }
   }
 
   getSliderValue() {
