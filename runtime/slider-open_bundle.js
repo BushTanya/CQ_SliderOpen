@@ -1238,6 +1238,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     this.ifSetQuestionVal = ifSetQuestionVal;
     this.container = this.getContainer();
     this.sliderValues = this.getValues(this.sliderSettings.scaleMin, this.sliderSettings.scaleMax);
+    this.sliderStartValue = this.sliderSettings.scaleStart;
     this.render();
     this.slider = this.createSlider();
     this.slider.changeEvent.on(this.onSliderChange.bind(this));
@@ -1246,23 +1247,9 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     this.sliderValues.forEach(answer => {
       this.getAnswerTextNode(answer.code).addEventListener('click', () => {
         this.setSliderValue(answer.code);
-        /*if (ifSetQuestionVal) {
-        	this.question.setValue(answer.code);
-        }
-        else {
-        	this.sliderValue = answer.code;
-        	this.onModelValueChange();
-        }*/
       });
     });
-    this.setSliderValue(this.sliderSettings.scaleStart.toString());
-    /*if (this.ifSetQuestionVal) {
-    	this.question.setValue(this.sliderSettings.scaleStart);
-    }
-    else {
-    	this.sliderValue = this.sliderSettings.scaleStart.toString();
-    	this.onModelValueChange();
-    }*/
+    this.setSliderValue(this.sliderStartValue.toString());
   }
 
   render() {
@@ -1299,7 +1286,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   createSlider() {
     const sliderNode = this.getQuestionInputNodeId();
     const sliderValues = this.sliderValues.map(answer => answer.code);
-    const sliderValue = this.ifSetQuestionVal ? this.question.value : this.sliderValue;
+    const sliderValue = this.ifSetQuestionVal ? this.question.value : this.sliderStartValue;
     const readOnly = this.question.readOnly;
 
     const sliderTextValueHandler = sliderValue => {
@@ -1318,14 +1305,12 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
   onModelValueChange() {
-    this.slider.value = this.ifSetQuestionVal ? this.question.value : this.sliderValue;
+    this.slider.value = this.question.value;
   }
 
   onSliderChange() {
     if (this.ifSetQuestionVal) {
       this.question.setValue(this.slider.value);
-    } else {
-      this.sliderValue = this.slider.value;
     }
 
     var questLabels = this.container.querySelectorAll('.cf-single-slider-question__label');
@@ -1379,8 +1364,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     if (this.ifSetQuestionVal) {
       this.question.setValue(value);
     } else {
-      this.sliderValue = value;
-      this.onModelValueChange();
+      this.slider.value = value;
     }
   }
 
