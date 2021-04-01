@@ -3,7 +3,7 @@
 // For SingleForm, GridForm it should be false
 const isCustomScale = true;
 let scaleSettingsDiv = document.getElementById('scaleSettings');
-if (isCustomScale) {
+if(isCustomScale) {
 	scaleSettingsDiv.style.display = "flex";
 } else {
   scaleSettingsDiv.style.display = "none";
