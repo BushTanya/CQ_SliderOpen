@@ -296,7 +296,9 @@ class ErrorList {
   }
 
   clean() {
-    while (this.list.firstChild) this.list.removeChild(this.list.firstChild);
+    while (this.list.firstChild) {
+      this.list.removeChild(this.list.firstChild);
+    }
   }
 
   appendError(error) {
@@ -316,7 +318,10 @@ class QuestionErrorBlock {
   }
 
   showErrors(errors) {
-    if (errors.length === 0) return;
+    if (errors.length === 0) {
+      return;
+    }
+
     this.errorList.clean();
     this.errorList.addErrors(errors);
     this.container.classList.remove('cf-error-block--hidden');
@@ -480,6 +485,10 @@ class Utils {
   }
 
   static getElementOffset(element) {
+    if (!element) {
+      return;
+    }
+
     var rect = element.getBoundingClientRect();
     var offset = {
       top: rect.top + window.scrollY,
@@ -489,6 +498,10 @@ class Utils {
   }
 
   static outerWidth(element) {
+    if (!element) {
+      return;
+    }
+
     var width = element.offsetWidth;
     var style = window.getComputedStyle(element);
     width += parseInt(style.marginLeft) + parseInt(style.marginRight);
@@ -496,6 +509,10 @@ class Utils {
   }
 
   static outerHeight(element) {
+    if (!element) {
+      return;
+    }
+
     var height = element.offsetHeight;
     var style = window.getComputedStyle(element);
     height += parseInt(style.marginTop) + parseInt(style.marginBottom);
@@ -504,6 +521,9 @@ class Utils {
 
 }
 ;// CONCATENATED MODULE: ./lib/keyboard-keys.js
+/**
+ * @module keybord-keys
+ */
 /* harmony default export */ const keyboard_keys = ({
   SpaceBar: 32,
   Enter: 13,
@@ -1231,11 +1251,14 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   /**
    * @param {OpenQuestion} question
    * @param {QuestionViewSettings} settings
+   * @param {customQuestionSettings} sliderSettings
+   * @param {Boolean} isCustomScale
+   * @param {Boolean} isQuestionValue
    */
-  constructor(question, settings, sliderSettings, isCustomScaleOn = true, ifSetQuestionVal) {
+  constructor(question, settings, sliderSettings, isCustomScale = true, isQuestionValue = false) {
     super(question, settings);
     this.sliderSettings = sliderSettings;
-    this.ifSetQuestionVal = ifSetQuestionVal;
+    this.isQuestionValue = isQuestionValue;
     this.container = this.getContainer();
     this.sliderValues = this.getValues(this.sliderSettings.scaleMin, this.sliderSettings.scaleMax);
     this.sliderStartValue = this.sliderSettings.scaleStart;
@@ -1286,7 +1309,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   createSlider() {
     const sliderNode = this.getQuestionInputNodeId();
     const sliderValues = this.sliderValues.map(answer => answer.code);
-    const sliderValue = this.ifSetQuestionVal ? this.question.value : this.sliderStartValue;
+    const sliderValue = this.isQuestionValue ? this.question.value : this.sliderStartValue;
     const readOnly = this.question.readOnly;
 
     const sliderTextValueHandler = sliderValue => {
@@ -1309,7 +1332,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
   onSliderChange() {
-    if (this.ifSetQuestionVal) {
+    if (this.isQuestionValue) {
       this.question.setValue(this.slider.value);
     }
 
@@ -1361,7 +1384,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
   setSliderValue(value) {
-    if (this.ifSetQuestionVal) {
+    if (this.isQuestionValue) {
       this.question.setValue(value);
     } else {
       this.slider.value = value;

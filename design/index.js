@@ -1,12 +1,12 @@
-//The parameter isCustomScaleOn should be set the same here and in the ".runtime/loader.js"
+//The parameter isCustomScale should be set the same here and in the ".runtime/loader.js"
 // For Open Form it should be always true
 // For SingleForm, GridForm it should be false
-const isCustomScaleOn = true;
+const isCustomScale = true;
 let scaleSettingsDiv = document.getElementById('scaleSettings');
-if (isCustomScaleOn) {
+if (isCustomScale) {
 	scaleSettingsDiv.style.display = "flex";
 } else {
-	scaleSettingsDiv.style.display = "none";
+  scaleSettingsDiv.style.display = "none";
 }
 
 let selectSliderDirection = document.getElementById('sliderDirection');
@@ -15,7 +15,9 @@ let scaleMax = document.getElementById('scaleMax');
 let scaleStart = document.getElementById('scaleStart');
 
 function setValues(settings, uiSettings) {
-	if (!settings) return;
+	if (!settings) {
+		return;
+	}
 	
 	selectSliderDirection.value = settings.isVertical ? "vertical" :  "horizontal";
 	scaleMin.value = settings.scaleMin;

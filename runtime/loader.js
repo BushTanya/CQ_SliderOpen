@@ -5,11 +5,11 @@
 		scaleMax: 10,
 		scaleStart: 0
 	};
-	//The parameter isCustomScaleOn should be set the same here and in the ".design/index.js"
+	// The parameter isCustomScale should be set the same here and in the ".design/index.js"
 	// For OpenForm it should be always true
 	// For SingleForm, GridForm it should be false
-	const isCustomScaleOn = true;
-	const ifSetQuestionVal = false;
+	const isCustomScale = true;
+	const isQuestionValue = false;
 
 	function getDefaultSettingsIfNeeded(existingSettings) {
 		var settings = existingSettings;
@@ -59,7 +59,7 @@
 			customQuestionSettings = getDefaultSettingsIfNeeded(customQuestionSettings);
 			
 			new customQuestionsLibrary.SliderOpenQuestionView(question, questionViewSettings, customQuestionSettings
-															  , isCustomScaleOn, ifSetQuestionVal);
+															  , isCustomScale, isQuestionValue);
 		}
 	);
 })();
