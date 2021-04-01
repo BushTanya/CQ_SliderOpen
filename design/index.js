@@ -1,4 +1,4 @@
-//The parameter isCustomScale should be set the same here and in the ".runtime/loader.js"
+// The parameter isCustomScale should be set the same here and in the ".runtime/loader.js"
 // For Open Form it should be always true
 // For SingleForm, GridForm it should be false
 const isCustomScale = true;
