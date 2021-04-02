@@ -1,5 +1,5 @@
 (function () {
-	const defaultSettings = {
+	var defaultSettings = {
 		isVertical: true,
 		scaleMin: -10,
 		scaleMax: 10,
@@ -8,8 +8,8 @@
 	// The parameter isCustomScale should be set the same here and in the ".design/index.js"
 	// For OpenForm it should be always true
 	// For SingleForm, GridForm it should be false
-	const isCustomScale = true;
-	const isQuestionValue = false;
+	var isCustomScale = true;
+	var isQuestionValue = false;
 
 	function getDefaultSettingsIfNeeded(existingSettings) {
 		var settings = existingSettings;
@@ -48,6 +48,7 @@
 
 		return newSettings;
 	}
+	
 	Confirmit.pageView.registerCustomQuestion(
 		"83f8d1ad-7949-4c53-9cda-aa424ece246b",
 		function (question, customQuestionSettings, questionViewSettings) {
@@ -55,11 +56,10 @@
 			if(!!customQuestionSettings) {
 				customQuestionSettings = getNewStructuredSettings(customQuestionSettings);
 			}
-
 			customQuestionSettings = getDefaultSettingsIfNeeded(customQuestionSettings);
 			
 			new customQuestionsLibrary.SliderOpenQuestionView(question, questionViewSettings, customQuestionSettings
-															  , isCustomScale, isQuestionValue);
+															  , ISCUSTOMSCALE, ISQUESTIONVALUE);
 		}
 	);
 })();

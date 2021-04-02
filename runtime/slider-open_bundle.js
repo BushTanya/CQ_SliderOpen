@@ -279,6 +279,9 @@ class QuestionWithAnswersView extends QuestionView {
 }
 ;// CONCATENATED MODULE: ./lib/error-list.js
 class ErrorList {
+  /**
+   * @param {HTMLUListElement} listNode
+  */
   constructor(listNode) {
     this.list = listNode;
   }
@@ -312,6 +315,9 @@ class ErrorList {
 ;// CONCATENATED MODULE: ./lib/question-error-block.js
 
 class QuestionErrorBlock {
+  /**
+   * @param {HTMLDivElement} container
+  */
   constructor(container) {
     this.container = container;
     this.errorList = new ErrorList(this.container.querySelector('.cf-error-list'));
@@ -336,6 +342,12 @@ class QuestionErrorBlock {
 ;// CONCATENATED MODULE: ./lib/answer-error-block.js
 
 class AnswerErrorBlock {
+  /**
+   * @param {string} id
+   * @param {HTMLDivElement} target
+   * @param {Boolean} top
+   * @param {Boolean} absolute
+  */
   constructor(id, target, {
     top = false,
     absolute = false
@@ -1221,6 +1233,9 @@ class HorizontalRtlSlider extends SliderBase {
 
 }
 ;// CONCATENATED MODULE: ./lib/validation-types.js
+/**
+ * @module validation-types
+ */
 /* harmony default export */ const validation_types = (Object.freeze({
   Required: 'Required',
   OtherRequired: 'OtherRequired',
@@ -1251,7 +1266,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   /**
    * @param {OpenQuestion} question
    * @param {QuestionViewSettings} settings
-   * @param {customQuestionSettings} sliderSettings
+   * @param {Object} sliderSettings
    * @param {Boolean} isCustomScale
    * @param {Boolean} isQuestionValue
    */
@@ -1296,10 +1311,10 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     var sliderContainer = document.createElement('div');
     sliderContainer.setAttribute('id', this.question.id + '_content');
     sliderContainer.setAttribute('class', 'cf-question__content');
-    var questDirection = this.sliderSettings.isVertical ? 'cf-single-slider-question--vertical' : this.question.isRtl ? 'cf-single-slider-question--horizontal-rtl' : 'cf-single-slider-question--horizontal';
+    var questionDirection = this.sliderSettings.isVertical ? 'cf-single-slider-question--vertical' : this.question.isRtl ? 'cf-single-slider-question--horizontal-rtl' : 'cf-single-slider-question--horizontal';
     var sliderDirection = this.sliderSettings.isVertical ? 'cf-slider--vertical' : 'cf-slider--horizontal';
     sliderDirection = this.question.isRtl ? sliderDirection + '-rtl' : sliderDirection;
-    sliderContainer.innerHTML = '<div class="cf-single-slider-question ' + questDirection + '">' + labels + '<div class="cf-single-slider-question__slider cf-slider ' + sliderDirection + '" id="' + this.question.id + '_input">' + '<div class="cf-slider__track-area">' + '<div class="cf-slider__track">' + '<div class="cf-slider__no-value"></div>' + '<div class="cf-slider__handle cf-slider__handle--no-value" role="slider" aria-readonly="false" tabindex="0" aria-valuenow="-1" aria-valuetext="NO RESPONSE"></div>' + '</div></div></div></div></div>';
+    sliderContainer.innerHTML = '<div class="cf-single-slider-question ' + questionDirection + '">' + labels + '<div class="cf-single-slider-question__slider cf-slider ' + sliderDirection + '" id="' + this.question.id + '_input">' + '<div class="cf-slider__track-area">' + '<div class="cf-slider__track">' + '<div class="cf-slider__no-value"></div>' + '<div class="cf-slider__handle cf-slider__handle--no-value" role="slider" aria-readonly="false" tabindex="0" aria-valuenow="-1" aria-valuetext="NO RESPONSE"></div>' + '</div></div></div></div></div>';
     container.append(textDiv);
     container.append(instructionDiv);
     container.append(errorDiv);
@@ -1336,11 +1351,11 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
       this.question.setValue(this.slider.value);
     }
 
-    var questLabels = this.container.querySelectorAll('.cf-single-slider-question__label');
+    var questionLabels = this.container.querySelectorAll('.cf-single-slider-question__label');
 
-    if (questLabels != null && questLabels.length != 0) {
-      questLabels.forEach(questLabel => {
-        questLabel.classList.remove('cf-single-slider-question__label--selected');
+    if (questionLabels != null && questionLabels.length != 0) {
+      questionLabels.forEach(questionLabels => {
+        questionLabels.classList.remove('cf-single-slider-question__label--selected');
       });
     }
 
