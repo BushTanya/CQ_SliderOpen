@@ -59,7 +59,7 @@
 			customQuestionSettings = getDefaultSettingsIfNeeded(customQuestionSettings);
 			
 			new customQuestionsLibrary.SliderOpenQuestionView(question, questionViewSettings, customQuestionSettings
-															  , ISCUSTOMSCALE, ISQUESTIONVALUE);
+															  , isCustomScale, isQuestionValue);
 		}
 	);
 })();
