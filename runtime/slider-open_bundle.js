@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
-;// CONCATENATED MODULE: ./lib/event.js
+;// CONCATENATED MODULE: ./lib/slider/event.js
 class Event {
   /**
    * Create instance.
@@ -54,7 +54,7 @@ class Event {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/question-view-base.js
+;// CONCATENATED MODULE: ./lib/slider/question-view-base.js
 
 class QuestionViewBase {
   /**
@@ -103,7 +103,7 @@ class QuestionViewBase {
   onModelValueChange() {}
 
 }
-;// CONCATENATED MODULE: ./lib/question-view.js
+;// CONCATENATED MODULE: ./lib/slider/question-view.js
 
 
 class QuestionView extends QuestionViewBase {
@@ -158,7 +158,7 @@ class QuestionView extends QuestionViewBase {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/question-with-answers-view.js
+;// CONCATENATED MODULE: ./lib/slider/question-with-answers-view.js
 
 
 class QuestionWithAnswersView extends QuestionView {
@@ -277,11 +277,11 @@ class QuestionWithAnswersView extends QuestionView {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/error-list.js
+;// CONCATENATED MODULE: ./lib/slider/error-list.js
 class ErrorList {
   /**
    * @param {HTMLUListElement} listNode
-  */
+   */
   constructor(listNode) {
     this.list = listNode;
   }
@@ -306,18 +306,18 @@ class ErrorList {
 
   appendError(error) {
     var erLi = document.createElement('li');
-    erLi.setAttribute("class", "cf-error-list__item");
+    erLi.setAttribute('class', 'cf-error-list__item');
     erLi.innerHTML = `${error}`;
     this.list.append(erLi);
   }
 
 }
-;// CONCATENATED MODULE: ./lib/question-error-block.js
+;// CONCATENATED MODULE: ./lib/slider/question-error-block.js
 
 class QuestionErrorBlock {
   /**
    * @param {HTMLDivElement} container
-  */
+   */
   constructor(container) {
     this.container = container;
     this.errorList = new ErrorList(this.container.querySelector('.cf-error-list'));
@@ -339,7 +339,7 @@ class QuestionErrorBlock {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/answer-error-block.js
+;// CONCATENATED MODULE: ./lib/slider/answer-error-block.js
 
 class AnswerErrorBlock {
   /**
@@ -347,7 +347,7 @@ class AnswerErrorBlock {
    * @param {HTMLDivElement} target
    * @param {Boolean} top
    * @param {Boolean} absolute
-  */
+   */
   constructor(id, target, {
     top = false,
     absolute = false
@@ -363,7 +363,10 @@ class AnswerErrorBlock {
   }
 
   showErrors(errors) {
-    if (errors.length === 0) return;
+    if (errors.length === 0) {
+      return;
+    }
+
     this.errorList.clean();
     this.errorList.addErrors(errors);
     this.container.classList.remove('cf-error-block--hidden');
@@ -390,22 +393,24 @@ class AnswerErrorBlock {
   append() {
     if (this.positionAbsolute) {
       this.target.append(this.container);
-    } else {
-      if (this.positionTop) {
-        this.target.before(this.container);
-      } else {
-        this.target.after(this.container);
-      }
+      return;
     }
+
+    if (this.positionTop) {
+      this.target.before(this.container);
+      return;
+    }
+
+    this.target.after(this.container);
   }
 
   prepareHtml() {
-    let html = document.createElement("div");
-    html.setAttribute("id", `${this.id}`);
-    html.setAttribute("class", "cf-error-block cf-error-block--hidden" + `${this.getPositionModifier()}`);
-    html.setAttribute("role", "alert");
-    html.setAttribute("aria-labelledby", `${this.id}_list`);
-    html.innerHTML = "<ul class='cf-error-list' id='" + `${this.id}_list` + "'></ul>";
+    let html = document.createElement('div');
+    html.setAttribute('id', `${this.id}`);
+    html.setAttribute('class', 'cf-error-block cf-error-block--hidden' + `${this.getPositionModifier()}`);
+    html.setAttribute('role', 'alert');
+    html.setAttribute('aria-labelledby', `${this.id}_list`);
+    html.innerHTML = '<ul class="cf-error-list" id="' + `${this.id}_list` + '"></ul>';
     return html;
   }
 
@@ -414,23 +419,19 @@ class AnswerErrorBlock {
       return '';
     }
 
-    let modifier = 'cf-error-block--bottom'; // default
-
     if (!this.positionAbsolute) {
       if (this.positionTop) {
-        modifier = 'cf-error-block--top';
-      } else {
-        modifier = 'cf-error-block--bottom';
+        return 'cf-error-block--top';
       }
-    } else {
-      if (this.positionTop) {
-        modifier = 'cf-error-block--absolute-top';
-      } else {
-        modifier = 'cf-error-block__absolute-bottom';
-      }
+
+      return 'cf-error-block--bottom';
     }
 
-    return modifier;
+    if (this.positionTop) {
+      return 'cf-error-block--absolute-top';
+    }
+
+    return 'cf-error-block__absolute-bottom';
   }
 
   targetIsInput() {
@@ -453,7 +454,7 @@ class AnswerErrorBlock {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/error-block-manager.js
+;// CONCATENATED MODULE: ./lib/slider/error-block-manager.js
 
 class ErrorBlockManager {
   constructor() {
@@ -484,7 +485,7 @@ class ErrorBlockManager {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/utils.js
+;// CONCATENATED MODULE: ./lib/slider/utils.js
 class Utils {
   static floor(value, precision) {
     const multiplier = Math.pow(10, precision);
@@ -532,7 +533,7 @@ class Utils {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/keyboard-keys.js
+;// CONCATENATED MODULE: ./lib/slider/keyboard-keys.js
 /**
  * @module keybord-keys
  */
@@ -549,7 +550,7 @@ class Utils {
   End: 35,
   Tab: 9
 });
-;// CONCATENATED MODULE: ./lib/slider-base.js
+;// CONCATENATED MODULE: ./lib/slider/slider-base.js
 
 
 
@@ -558,7 +559,7 @@ class SliderBase {
    * @param sliderNodeId {string} - slider node id
    * @param values {Object[]} - array of values
    * @param value {Object} - current slider value
-   * @param textValueHandler {function} - (sliderValue) => { return "text representation of slider value" }
+   * @param textValueHandler {function} - (sliderValue) => { return 'text representation of slider value' }
    * @param readOnly {boolean} is slider has to be in read only mode
    */
   constructor(sliderNodeId, values = [], value = null, textValueHandler = null, readOnly = false) {
@@ -744,53 +745,53 @@ class SliderBase {
 
 
   setHandleNodePosition(position) {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getTrackNodeSize() {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getHandleNodeSize() {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getHandleNodeMargin() {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getNoValueNodeOffset() {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getTrackNodeOffset() {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getNoValueHandleNodePosition() {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   } // eslint-disable-next-line no-unused-vars
 
 
   getMouseEventPointerPosition(event) {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   } // eslint-disable-next-line no-unused-vars
 
 
   getTouchEventPointerPosition(event) {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   } // eslint-disable-next-line no-unused-vars
 
 
   getPointerPositionOnTheTrack(pointerPosition) {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   getSliderNodeId(sliderNodeId) {
     try {
       return document.querySelector(`#${sliderNodeId}`);
     } catch (e) {
-      throw "Could not find the sliderNodeId";
+      throw 'Could not find the sliderNodeId';
     }
   }
 
@@ -798,7 +799,7 @@ class SliderBase {
     try {
       return this.sliderNode.querySelector('.cf-slider__handle');
     } catch (e) {
-      throw "Could not find the '.cf-slider__handle'";
+      throw 'Could not find the ".cf-slider__handle"';
     }
   }
 
@@ -806,7 +807,7 @@ class SliderBase {
     try {
       return this.sliderNode.querySelector('.cf-slider__no-value');
     } catch (e) {
-      throw "Could not find the '.cf-slider__no-value'";
+      throw 'Could not find the ".cf-slider__no-value"';
     }
   }
 
@@ -814,7 +815,7 @@ class SliderBase {
     try {
       return this.sliderNode.querySelector('.cf-slider__track-area');
     } catch (e) {
-      throw "Could not find the '.cf-slider__track-area'";
+      throw 'Could not find the ".cf-slider__track-area"';
     }
   }
 
@@ -873,9 +874,10 @@ class SliderBase {
   toggleHandleNodeNoValueCSSModifier(add) {
     if (add) {
       this.handleNode.classList.add(this.handleNodeNoValueModifierClass);
-    } else {
-      this.handleNode.classList.remove(this.handleNodeNoValueModifierClass);
+      return;
     }
+
+    this.handleNode.classList.remove(this.handleNodeNoValueModifierClass);
   }
 
   handleCommonKeys(keyCode) {
@@ -918,7 +920,7 @@ class SliderBase {
 
 
   handleArrowsKeys(keyCode) {
-    throw "Not implemented exception";
+    throw 'Not implemented exception';
   }
 
   onTrackClick(event) {
@@ -1052,7 +1054,7 @@ class SliderBase {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/horizontal-slider.js
+;// CONCATENATED MODULE: ./lib/slider/horizontal-slider.js
 
 
 
@@ -1112,7 +1114,7 @@ class HorizontalSlider extends SliderBase {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/vertical-slider.js
+;// CONCATENATED MODULE: ./lib/slider/vertical-slider.js
 
 
 
@@ -1172,7 +1174,7 @@ class VerticalSlider extends SliderBase {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/horizontal-rtl-slider.js
+;// CONCATENATED MODULE: ./lib/slider/horizontal-rtl-slider.js
 
 
 
@@ -1232,7 +1234,7 @@ class HorizontalRtlSlider extends SliderBase {
   }
 
 }
-;// CONCATENATED MODULE: ./lib/validation-types.js
+;// CONCATENATED MODULE: ./lib/slider/validation-types.js
 /**
  * @module validation-types
  */
@@ -1253,7 +1255,7 @@ class HorizontalRtlSlider extends SliderBase {
   HierarchyForceLowestLevel: 'HierarchyForceLowestLevel',
   Email: 'Email'
 }));
-;// CONCATENATED MODULE: ./lib/slider-open-question-view.js
+;// CONCATENATED MODULE: ./lib/slider/slider-open-question-view.js
 
 
 
@@ -1261,21 +1263,33 @@ class HorizontalRtlSlider extends SliderBase {
 
 
 
+
+var defaultSettings = {
+  isVertical: true,
+  isQuestionValue: true,
+  isCustomScale: true,
+  customScale: {
+    min: -10,
+    max: 10,
+    start: 0
+  }
+};
 
 class SliderOpenQuestionView extends QuestionWithAnswersView {
   /**
    * @param {OpenQuestion} question
    * @param {QuestionViewSettings} settings
    * @param {Object} sliderSettings
-   * @param {Boolean} isCustomScale
-   * @param {Boolean} isQuestionValue
    */
-  constructor(question, settings, sliderSettings, isCustomScale = true, isQuestionValue = false) {
+  constructor(question, settings, sliderSettings) {
     super(question, settings);
-    this.sliderSettings = sliderSettings;
-    this.isQuestionValue = isQuestionValue;
+    this.sliderSettings = sliderSettings ? sliderSettings : defaultSettings;
+    this.init();
+  }
+
+  init() {
     this.container = this.getContainer();
-    this.sliderValues = this.getValues(this.sliderSettings.scaleMin, this.sliderSettings.scaleMax);
+    this.sliderValues = this.getValues(this.sliderSettings.customScale.min, this.sliderSettings.customScale.max);
     this.sliderStartValue = this.sliderSettings.scaleStart;
     this.render();
     this.slider = this.createSlider();
@@ -1287,7 +1301,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
         this.setSliderValue(answer.code);
       });
     });
-    this.setSliderValue(this.sliderStartValue.toString());
+    this.setSliderValue(this.sliderSettings.customScale.start.toString());
   }
 
   render() {
@@ -1324,7 +1338,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   createSlider() {
     const sliderNode = this.getQuestionInputNodeId();
     const sliderValues = this.sliderValues.map(answer => answer.code);
-    const sliderValue = this.isQuestionValue ? this.question.value : this.sliderStartValue;
+    const sliderValue = this.sliderSettings.isQuestionValue ? this.question.value : this.sliderStartValue;
     const readOnly = this.question.readOnly;
 
     const sliderTextValueHandler = sliderValue => {
@@ -1347,7 +1361,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
   onSliderChange() {
-    if (this.isQuestionValue) {
+    if (this.sliderSettings.isQuestionValue) {
       this.question.setValue(this.slider.value);
     }
 
@@ -1370,7 +1384,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     try {
       return document.querySelector(`#${this.question.id}`);
     } catch (e) {
-      throw "Could not find the slider container";
+      throw 'Could not find the slider container';
     }
   }
 
@@ -1378,9 +1392,15 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
     try {
       return this.container.querySelector('.cf-question__error');
     } catch (e) {
-      throw "Could not find the '.cf-question__error'";
+      throw 'Could not find the ".cf-question__error"';
     }
   }
+  /**
+   * @param {number} start
+   * @param {number} end
+   * @return {Array} returns an array of objects
+  */
+
 
   getValues(start, end) {
     var values = Array(end - start + 1).fill().map((_, idx) => start + idx);
@@ -1399,11 +1419,12 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
   setSliderValue(value) {
-    if (this.isQuestionValue) {
+    if (this.sliderSettings.isQuestionValue) {
       this.question.setValue(value);
-    } else {
-      this.slider.value = value;
+      return;
     }
+
+    this.slider.value = value;
   }
 
   getSliderValue() {
@@ -1411,8 +1432,6 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
 }
-;// CONCATENATED MODULE: ./entry.js
-
 
 if (window && !window.customQuestionsLibrary) {
   window.customQuestionsLibrary = {};

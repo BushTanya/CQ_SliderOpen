@@ -11,9 +11,10 @@
     "component": "runtime/loader.js",
     "deps": {
       "scripts": [
-		"runtime/slider-open_bundle.js"],
+				"runtime/slider-open_bundle.js"
+			],
       "styles": [
-        "runtime/styles.css"
+        "lib/slider/styles.css"
       ]
     }
   }

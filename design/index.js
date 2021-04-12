@@ -1,12 +1,12 @@
-// The parameter isCustomScale should be set the same here and in the ".runtime/loader.js"
-// For Open Form it should be always true
-// For SingleForm, GridForm it should be false
-var isCustomScale = true;
+var isCustomScale = true; // should be always true for Open Form, for SingleForm, GridForm it should be false
+var isQuestionValue = true;
+
+// Hides scale settings panel if isCustomScale = false
 let scaleSettingsDiv = document.getElementById('scaleSettings');
 if(isCustomScale) {
-	scaleSettingsDiv.style.display = "flex";
+	scaleSettingsDiv.style.display = 'flex';
 } else {
-  scaleSettingsDiv.style.display = "none";
+  scaleSettingsDiv.style.display = 'none';
 }
 
 let selectSliderDirection = document.getElementById('sliderDirection');
@@ -14,15 +14,27 @@ let scaleMin = document.getElementById('scaleMin');
 let scaleMax = document.getElementById('scaleMax');
 let scaleStart = document.getElementById('scaleStart');
 
+// default settings when we open custom settings for the first time
+var defaultSettings = {
+	isVertical: true,
+	isQuestionValue: isQuestionValue,
+	isCustomScale: isCustomScale,
+	customScale: {
+		min: -10,
+		max: 10,
+		start: 0
+	}
+}
+
 function setValues(settings, uiSettings) {
 	if (!settings) {
-		return;
+		settings = defaultSettings;
 	}
 	
-	selectSliderDirection.value = settings.isVertical ? "vertical" :  "horizontal";
-	scaleMin.value = settings.scaleMin;
-	scaleMax.value = settings.scaleMax;
-	scaleStart.value = settings.scaleStart;
+	selectSliderDirection.value = settings.isVertical ? 'vertical' :  'horizontal';
+	scaleMin.value = settings.customScale.min;
+	scaleMax.value = settings.customScale.max;
+	scaleStart.value = settings.customScale.start;
 }
 
 function saveChanges() {
@@ -32,13 +44,17 @@ function saveChanges() {
 	if(elementsWithErrors.length > 0 || errors) {
 		showErrors(errors);
 	} else {
-		var isVerticalVal = selectSliderDirection.value == "vertical" ? true : false;
+		var isVerticalVal = selectSliderDirection.value == 'vertical' ? true : false;
 		
 		let settings = {
 			isVertical: isVerticalVal,
-			scaleMin: parseInt(scaleMin.value),
-			scaleMax: parseInt(scaleMax.value),
-			scaleStart: parseInt(scaleStart.value)
+			isQuestionValue: isQuestionValue,
+			isCustomScale: isCustomScale,
+			customScale: { 
+				min: parseInt(scaleMin.value),
+				max: parseInt(scaleMax.value),
+				start: parseInt(scaleStart.value)
+			}
 		};
 		var hasError = false;
 		customQuestion.saveChanges(settings, hasError);     
@@ -53,13 +69,13 @@ function checkValues() {
 			if(parseInt(scaleMin.value) < -100) {
 				let newItem = {
 					'element': scaleMin,
-					'errorText': "Can't be less <br/> than -100"
+					'errorText': 'Can\'t be less <br/> than -100'
 				};
 				errorsList.push(newItem);
 			} else {
 				let newItem = {
 					'element': scaleMin,
-					'errorText': "Can't be more than 99"
+					'errorText': 'Can\'t be more than 99'
 				};
 				errorsList.push(newItem);
 			}
@@ -72,13 +88,13 @@ function checkValues() {
 			if (parseInt(scaleMax.value) < -99) {
 				let newItem = {
 					'element': scaleMax,
-					'errorText': "Can't be less than -99"
+					'errorText': 'Can\'t be less than -99'
 				};
 				errorsList.push(newItem);
 			} else {
 				let newItem = {
 					'element': scaleMax,
-					'errorText': "Can't be more than 100"
+					'errorText': 'Can\'t be more than 100'
 				};
 				errorsList.push(newItem);
 			}
@@ -90,7 +106,7 @@ function checkValues() {
 		if(parseInt(scaleMax.value) <= parseInt(scaleMin.value)) {
 			let newItem = {
 				'element': scaleMax,
-				'errorText': "Can't be less or equal than scale's minimum"
+				'errorText': 'Can\'t be less or equal than scale\'s minimum'
 			};
 			errorsList.push(newItem);
 		}
@@ -109,7 +125,7 @@ function checkValues() {
 		if(parseInt(scaleStart.value) < parseInt(rangeStart) || parseInt(scaleStart.value) > parseInt(rangeEnd)) {
 			let newItem = {
 				'element': scaleStart,
-				'errorText': "Must be in the range between " + parseInt(rangeStart) + " and " + parseInt(rangeEnd)
+				'errorText': 'Must be in the range between ' + parseInt(rangeStart) + ' and ' + parseInt(rangeEnd)
 			};
 			errorsList.push(newItem);
 		}
@@ -125,7 +141,7 @@ function checkValues() {
 function showErrors(errors) {
 	for(let i = 0; i < errors.length; i++) {
 		errorTooltipShow(errors[i].element, errors[i].errorText);
-		errors[i].element.classList.add("form-input--error");
+		errors[i].element.classList.add('form-input--error');
 	}
 }
 
@@ -134,9 +150,9 @@ function removeErrors() {
 	if(elementsWithErrors.length > 0) {
 		for(let i = 0; i < elementsWithErrors.length; i++) {
 			let elementID = elementsWithErrors[i].id;
-			if(document.querySelectorAll("#error--" + elementID).length > 0) {
-				elementsWithErrors[i].classList.remove("form-input--error");
-				document.getElementById("error--" + elementID).outerHTML = "";
+			if(document.querySelectorAll('#error--' + elementID).length > 0) {
+				elementsWithErrors[i].classList.remove('form-input--error');
+				document.getElementById('error--' + elementID).outerHTML = '';
 			}
 		}
 	}
