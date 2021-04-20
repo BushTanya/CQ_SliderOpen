@@ -15,7 +15,7 @@ if(ISCUSTOMSCALE) {
 }
 
 function setValues(settings, uiSettings) {
-	if (!settings) {
+	if(!settings) {
 		return;
 	}
 	
