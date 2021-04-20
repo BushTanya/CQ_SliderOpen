@@ -1,5 +1,5 @@
 (function() {
-	var port = undefined,
+	let port = undefined,
 		customQuestion = {
 			onInit: function() {},
 			onSettingsReceived: function() {},
@@ -16,7 +16,7 @@
 	}
 
 	function onPortMessage(e) {
-		var type = e.data.type,
+		let type = e.data.type,
 			payload = e.data.payload;
 
 		switch(type) {

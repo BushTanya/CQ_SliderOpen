@@ -246,10 +246,10 @@ class QuestionWithAnswersView extends QuestionView {
 
 
   showAnswerError(validationResult) {
-    const answer = this.question.getAnswer(validationResult.answerCode);
-    const target = answer.isOther ? this.getAnswerOtherNode(validationResult.answerCode) : this.getAnswerTextNode(validationResult.answerCode);
-    const errorBlockId = this.getAnswerErrorBlockId(validationResult.answerCode);
-    const errors = validationResult.errors.map(error => error.message);
+    let answer = this.question.getAnswer(validationResult.answerCode);
+    let target = answer.isOther ? this.getAnswerOtherNode(validationResult.answerCode) : this.getAnswerTextNode(validationResult.answerCode);
+    let errorBlockId = this.getAnswerErrorBlockId(validationResult.answerCode);
+    let errors = validationResult.errors.map(error => error.message);
     this.answerErrorBlockManager.showErrors(errorBlockId, target, errors);
   }
 
@@ -262,14 +262,14 @@ class QuestionWithAnswersView extends QuestionView {
     otherValues = []
   }) {
     otherValues.forEach(answerCode => {
-      const otherValue = this.question.otherValues[answerCode];
+      let otherValue = this.question.otherValues[answerCode];
       this.setOtherNodeValue(answerCode, otherValue);
     });
   }
 
   setOtherNodeValue(answerCode, otherValue) {
     otherValue = otherValue || '';
-    const otherInput = this.getAnswerOtherNode(answerCode);
+    let otherInput = this.getAnswerOtherNode(answerCode);
 
     if (otherInput != null && otherInput.value !== otherValue) {
       otherInput.value = otherValue;
@@ -305,7 +305,7 @@ class ErrorList {
   }
 
   appendError(error) {
-    var erLi = document.createElement('li');
+    let erLi = document.createElement('li');
     erLi.setAttribute('class', 'cf-error-list__item');
     erLi.innerHTML = `${error}`;
     this.list.append(erLi);
@@ -502,8 +502,8 @@ class Utils {
       return;
     }
 
-    var rect = element.getBoundingClientRect();
-    var offset = {
+    let rect = element.getBoundingClientRect();
+    let offset = {
       top: rect.top + window.scrollY,
       left: rect.left + window.scrollX
     };
@@ -515,8 +515,8 @@ class Utils {
       return;
     }
 
-    var width = element.offsetWidth;
-    var style = window.getComputedStyle(element);
+    let width = element.offsetWidth;
+    let style = window.getComputedStyle(element);
     width += parseInt(style.marginLeft) + parseInt(style.marginRight);
     return width;
   }
@@ -526,10 +526,40 @@ class Utils {
       return;
     }
 
-    var height = element.offsetHeight;
-    var style = window.getComputedStyle(element);
+    let height = element.offsetHeight;
+    let style = window.getComputedStyle(element);
     height += parseInt(style.marginTop) + parseInt(style.marginBottom);
     return height;
+  }
+  /**
+   * @param {DOM} element
+   * @return {object} get computed style for an element, excluding any default styles 
+   */
+
+
+  static getStylesWithoutDefaults(element) {
+    if (!element) {
+      return;
+    } // creating an empty dummy object to compare with
+
+
+    let dummy = document.createElement('div');
+    element.parentNode.appendChild(dummy); // getting computed styles for both elements
+
+    let defaultStyles = getComputedStyle(dummy);
+    let elementStyles = getComputedStyle(element); // calculating the difference
+
+    let diff = {};
+
+    for (let key in elementStyles) {
+      if (elementStyles.hasOwnProperty(key) && defaultStyles[key] !== elementStyles[key] && elementStyles[key].indexOf('px') === -1) {
+        diff[key] = elementStyles[key];
+      }
+    } // clear dom
+
+
+    dummy.remove();
+    return diff;
   }
 
 }
@@ -646,7 +676,7 @@ class SliderBase {
 
 
   calculateTrackIntervals() {
-    const intervalSize = 100 / this.values.length;
+    let intervalSize = 100 / this.values.length;
 
     for (let i = 0; i < this.values.length; i++) {
       let startInterval = Utils.round(i * intervalSize, 2);
@@ -689,13 +719,13 @@ class SliderBase {
   }
 
   getValueIndexByTrackValue(trackValue) {
-    const search = (minIndex, maxIndex) => {
+    let search = (minIndex, maxIndex) => {
       if (minIndex > maxIndex) {
         return -1;
       }
 
-      const midIndex = Math.floor((minIndex + maxIndex) / 2);
-      const interval = this.trackIntervals[midIndex];
+      let midIndex = Math.floor((minIndex + maxIndex) / 2);
+      let interval = this.trackIntervals[midIndex];
 
       if (trackValue < interval[0]) {
         return search(minIndex, midIndex - 1);
@@ -849,8 +879,8 @@ class SliderBase {
       return;
     }
 
-    const interval = this.trackIntervals[this.valueIndex];
-    const trackValue = this.getTrackValueByInterval(interval);
+    let interval = this.trackIntervals[this.valueIndex];
+    let trackValue = this.getTrackValueByInterval(interval);
     this.moveHandleNode(trackValue);
   }
 
@@ -924,14 +954,14 @@ class SliderBase {
   }
 
   onTrackClick(event) {
-    const pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getMouseEventPointerPosition(event));
+    let pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getMouseEventPointerPosition(event));
 
     if (pointerPositionOnTheTrack < 0) {
       return;
     }
 
-    const trackValue = this.getTrackValue(pointerPositionOnTheTrack);
-    const index = this.getValueIndexByTrackValue(trackValue);
+    let trackValue = this.getTrackValue(pointerPositionOnTheTrack);
+    let index = this.getValueIndexByTrackValue(trackValue);
     this.setValueIndex(index);
   }
 
@@ -951,7 +981,7 @@ class SliderBase {
     }
 
     event.preventDefault();
-    const pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getMouseEventPointerPosition(event));
+    let pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getMouseEventPointerPosition(event));
     this.onHandleMove(pointerPositionOnTheTrack);
   }
 
@@ -961,7 +991,7 @@ class SliderBase {
     }
 
     event.preventDefault();
-    const pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getMouseEventPointerPosition(event));
+    let pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getMouseEventPointerPosition(event));
     this.onHandleMoveEnd(pointerPositionOnTheTrack);
   }
 
@@ -983,7 +1013,7 @@ class SliderBase {
       return;
     }
 
-    const pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getTouchEventPointerPosition(event));
+    let pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getTouchEventPointerPosition(event));
     this.onHandleMove(pointerPositionOnTheTrack);
   }
 
@@ -993,7 +1023,7 @@ class SliderBase {
     }
 
     event.preventDefault();
-    const pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getTouchEventPointerPosition(event));
+    let pointerPositionOnTheTrack = this.getPointerPositionOnTheTrack(this.getTouchEventPointerPosition(event));
     this.onHandleMoveEnd(pointerPositionOnTheTrack);
   }
 
@@ -1017,7 +1047,7 @@ class SliderBase {
       return;
     }
 
-    const trackValue = this.getTrackValue(pointerPositionOnTheTrack);
+    let trackValue = this.getTrackValue(pointerPositionOnTheTrack);
     this.moveHandleNode(trackValue);
   }
 
@@ -1029,7 +1059,7 @@ class SliderBase {
     if (pointerPositionOnTheTrack < -(this.getHandleNodeSize() / 2)) {
       newValueIndex = -1;
     } else {
-      const trackValue = this.getTrackValue(pointerPositionOnTheTrack);
+      let trackValue = this.getTrackValue(pointerPositionOnTheTrack);
       newValueIndex = this.getValueIndexByTrackValue(trackValue);
     }
 
@@ -1042,7 +1072,7 @@ class SliderBase {
   }
 
   onHandleKeyPress(event) {
-    const allowedKeys = [keyboard_keys.ArrowUp, keyboard_keys.ArrowLeft, keyboard_keys.ArrowRight, keyboard_keys.ArrowDown, keyboard_keys.PageUp, keyboard_keys.PageDown, keyboard_keys.Home, keyboard_keys.End];
+    let allowedKeys = [keyboard_keys.ArrowUp, keyboard_keys.ArrowLeft, keyboard_keys.ArrowRight, keyboard_keys.ArrowDown, keyboard_keys.PageUp, keyboard_keys.PageDown, keyboard_keys.Home, keyboard_keys.End];
 
     if (allowedKeys.includes(event.keyCode) === false) {
       return;
@@ -1264,7 +1294,8 @@ class HorizontalRtlSlider extends SliderBase {
 
 
 
-var defaultSettings = {
+
+const DEFAULT_SLIDER_SETTINGS = {
   isVertical: true,
   isQuestionValue: true,
   isCustomScale: true,
@@ -1279,11 +1310,11 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   /**
    * @param {OpenQuestion} question
    * @param {QuestionViewSettings} settings
-   * @param {Object} sliderSettings
+   * @param {Object} customSettings
    */
-  constructor(question, settings, sliderSettings) {
+  constructor(question, settings, customSettings) {
     super(question, settings);
-    this.sliderSettings = sliderSettings ? sliderSettings : defaultSettings;
+    this.sliderSettings = customSettings.sliderSettings ? customSettings.sliderSettings : DEFAULT_SLIDER_SETTINGS;
     this.init();
   }
 
@@ -1305,43 +1336,88 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
   }
 
   render() {
-    var container = this.container;
-    var textDiv = document.createElement('div');
-    textDiv.setAttribute('id', this.question.id + '_text');
-    textDiv.setAttribute('class', 'cf-question__text');
-    var instructionDiv = document.createElement('div');
-    instructionDiv.setAttribute('id', this.question.id + '_instruction');
-    instructionDiv.setAttribute('class', 'cf-question__instruction');
-    var errorDiv = document.createElement('div');
-    errorDiv.setAttribute('id', this.question.id + '_error');
-    errorDiv.setAttribute('class', 'cf-question__error cf-error-block cf-error-block--bottom cf-error-block--hidden');
-    errorDiv.innerHTML = '<ul class="cf-error-list" id="' + this.question.id + '_error_list"></ul>';
-    var labels = '<ol class="cf-single-slider-question__labels">';
+    let container = this.container;
+    let textContainer = this.createTextContainer();
+    let instructionContainer = this.createInstructionContainer();
+    let errorsContainer = this.createErrorsContainer();
+    let sliderContainer = this.createSliderContainer();
+    let labels = '<ol class="cf-single-slider-question__labels">';
     this.sliderValues = this.question.isRtl ? this.sliderValues.slice().reverse() : this.sliderValues;
     this.sliderValues.forEach(value => {
       labels += '<li class="cf-single-slider-question__label" id="' + this.question.id + "_" + value.code + "_text" + '">' + value.text + '</li>';
     });
     labels += '</ol>';
-    var sliderContainer = document.createElement('div');
-    sliderContainer.setAttribute('id', this.question.id + '_content');
-    sliderContainer.setAttribute('class', 'cf-question__content');
-    var questionDirection = this.sliderSettings.isVertical ? 'cf-single-slider-question--vertical' : this.question.isRtl ? 'cf-single-slider-question--horizontal-rtl' : 'cf-single-slider-question--horizontal';
-    var sliderDirection = this.sliderSettings.isVertical ? 'cf-slider--vertical' : 'cf-slider--horizontal';
+    let questionDirection = this.sliderSettings.isVertical ? 'cf-single-slider-question--vertical' : this.question.isRtl ? 'cf-single-slider-question--horizontal-rtl' : 'cf-single-slider-question--horizontal';
+    let sliderDirection = this.sliderSettings.isVertical ? 'cf-slider--vertical' : 'cf-slider--horizontal';
     sliderDirection = this.question.isRtl ? sliderDirection + '-rtl' : sliderDirection;
     sliderContainer.innerHTML = '<div class="cf-single-slider-question ' + questionDirection + '">' + labels + '<div class="cf-single-slider-question__slider cf-slider ' + sliderDirection + '" id="' + this.question.id + '_input">' + '<div class="cf-slider__track-area">' + '<div class="cf-slider__track">' + '<div class="cf-slider__no-value"></div>' + '<div class="cf-slider__handle cf-slider__handle--no-value" role="slider" aria-readonly="false" tabindex="0" aria-valuenow="-1" aria-valuetext="NO RESPONSE"></div>' + '</div></div></div></div></div>';
-    container.append(textDiv);
-    container.append(instructionDiv);
-    container.append(errorDiv);
+    container.append(textContainer);
+    container.append(instructionContainer);
+    container.append(errorsContainer);
     container.append(sliderContainer);
   }
 
-  createSlider() {
-    const sliderNode = this.getQuestionInputNodeId();
-    const sliderValues = this.sliderValues.map(answer => answer.code);
-    const sliderValue = this.sliderSettings.isQuestionValue ? this.question.value : this.sliderStartValue;
-    const readOnly = this.question.readOnly;
+  createTextContainer() {
+    let textContainer = document.createElement('div');
+    textContainer.setAttribute('id', this.question.id + '_text');
+    textContainer.setAttribute('class', 'cf-question__text');
 
-    const sliderTextValueHandler = sliderValue => {
+    if (this.question.text) {
+      textContainer.innerHTML = this.question.text;
+    }
+
+    return textContainer;
+  }
+
+  createInstructionContainer() {
+    let instructionContainer = document.createElement('div');
+    instructionContainer.setAttribute('id', this.question.id + '_instruction');
+    instructionContainer.setAttribute('class', 'cf-question__instruction');
+
+    if (this.question.instruction) {
+      instructionContainer.innerHTML = this.question.instruction;
+    }
+
+    return instructionContainer;
+  }
+
+  createErrorsContainer() {
+    let errorsContainer = document.createElement('div');
+    errorsContainer.setAttribute('id', this.question.id + '_error');
+    errorsContainer.setAttribute('class', 'cf-question__error cf-error-block cf-error-block--bottom cf-error-block--hidden');
+    errorsContainer.innerHTML = '<ul class="cf-error-list" id="' + this.question.id + '_error_list"></ul>';
+    return errorsContainer;
+  }
+
+  createSliderContainer() {
+    let sliderContainer = document.createElement('div');
+    sliderContainer.setAttribute('id', this.question.id + '_content');
+    this.setDefaultStylesIfNeeded(sliderContainer);
+    return sliderContainer;
+  }
+
+  setDefaultStylesIfNeeded(sliderContainer) {
+    if (!sliderContainer) {
+      return;
+    }
+
+    let pageMainDiv = document.querySelector('.cf-page__main');
+    let styles = Utils.getStylesWithoutDefaults(pageMainDiv);
+
+    if (pageMainDiv && Object.keys(styles).length > 0) {
+      sliderContainer.setAttribute('class', 'cf-question__content');
+    } else {
+      sliderContainer.setAttribute('class', 'cf-question__content default-styles_active');
+    }
+  }
+
+  createSlider() {
+    let sliderNode = this.getQuestionInputNodeId();
+    let sliderValues = this.sliderValues.map(answer => answer.code);
+    let sliderValue = this.sliderSettings.isQuestionValue ? this.question.value : this.sliderStartValue;
+    let readOnly = this.question.readOnly;
+
+    let sliderTextValueHandler = sliderValue => {
       return sliderValue === null ? this.settings.messages.noResponse : sliderValue;
     };
 
@@ -1365,7 +1441,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
       this.question.setValue(this.slider.value);
     }
 
-    var questionLabels = this.container.querySelectorAll('.cf-single-slider-question__label');
+    let questionLabels = this.container.querySelectorAll('.cf-single-slider-question__label');
 
     if (questionLabels != null && questionLabels.length != 0) {
       questionLabels.forEach(questionLabels => {
@@ -1373,7 +1449,7 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
       });
     }
 
-    var answerTextNode = this.getAnswerTextNode(this.slider.value);
+    let answerTextNode = this.getAnswerTextNode(this.slider.value);
 
     if (answerTextNode != null) {
       answerTextNode.classList.add('cf-single-slider-question__label--selected');
@@ -1403,9 +1479,9 @@ class SliderOpenQuestionView extends QuestionWithAnswersView {
 
 
   getValues(start, end) {
-    var values = Array(end - start + 1).fill().map((_, idx) => start + idx);
-    var valArr = [];
-    var cur = 0;
+    let values = Array(end - start + 1).fill().map((_, idx) => start + idx);
+    let valArr = [];
+    let cur = 0;
 
     for (const key of values) {
       valArr[cur] = {

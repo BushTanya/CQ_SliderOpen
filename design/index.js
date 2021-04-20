@@ -1,62 +1,52 @@
-var isCustomScale = true; // should be always true for Open Form, for SingleForm, GridForm it should be false
-var isQuestionValue = true;
-
-// Hides scale settings panel if isCustomScale = false
-let scaleSettingsDiv = document.getElementById('scaleSettings');
-if(isCustomScale) {
-	scaleSettingsDiv.style.display = 'flex';
-} else {
-  scaleSettingsDiv.style.display = 'none';
-}
+const ISCUSTOMSCALE = true; // should be always true for Open Form, for SingleForm, GridForm it should be false
+const ISQUESTIONVALUE = true;
 
 let selectSliderDirection = document.getElementById('sliderDirection');
 let scaleMin = document.getElementById('scaleMin');
 let scaleMax = document.getElementById('scaleMax');
 let scaleStart = document.getElementById('scaleStart');
 
-// default settings when we open custom settings for the first time
-var defaultSettings = {
-	isVertical: true,
-	isQuestionValue: isQuestionValue,
-	isCustomScale: isCustomScale,
-	customScale: {
-		min: -10,
-		max: 10,
-		start: 0
-	}
+// Hides scale settings panel if ISCUSTOMSCALE = false
+let scaleSettingsDiv = document.getElementById('scaleSettings');
+if(ISCUSTOMSCALE) {
+	scaleSettingsDiv.style.display = 'flex';
+} else {
+  scaleSettingsDiv.style.display = 'none';
 }
 
 function setValues(settings, uiSettings) {
 	if (!settings) {
-		settings = defaultSettings;
+		return;
 	}
 	
-	selectSliderDirection.value = settings.isVertical ? 'vertical' :  'horizontal';
-	scaleMin.value = settings.customScale.min;
-	scaleMax.value = settings.customScale.max;
-	scaleStart.value = settings.customScale.start;
+	selectSliderDirection.value = settings.sliderSettings.isVertical ? 'vertical' :  'horizontal';
+	scaleMin.value = settings.sliderSettings.customScale.min;
+	scaleMax.value = settings.sliderSettings.customScale.max;
+	scaleStart.value = settings.sliderSettings.customScale.start;
 }
 
 function saveChanges() {
-	var errors = checkValues();
+	let errors = checkValues();
 	let elementsWithErrors = document.querySelectorAll('.form-input--error');
 	removeErrors();
 	if(elementsWithErrors.length > 0 || errors) {
 		showErrors(errors);
 	} else {
-		var isVerticalVal = selectSliderDirection.value == 'vertical' ? true : false;
+		let isVerticalVal = selectSliderDirection.value == 'vertical' ? true : false;
 		
 		let settings = {
-			isVertical: isVerticalVal,
-			isQuestionValue: isQuestionValue,
-			isCustomScale: isCustomScale,
-			customScale: { 
-				min: parseInt(scaleMin.value),
-				max: parseInt(scaleMax.value),
-				start: parseInt(scaleStart.value)
+			sliderSettings: {
+				isVertical: isVerticalVal,
+				isQuestionValue: ISQUESTIONVALUE,
+				isCustomScale: ISCUSTOMSCALE,
+				customScale: { 
+					min: parseInt(scaleMin.value),
+					max: parseInt(scaleMax.value),
+					start: parseInt(scaleStart.value)
+				}
 			}
 		};
-		var hasError = false;
+		let hasError = false;
 		customQuestion.saveChanges(settings, hasError);     
 	}
 }
